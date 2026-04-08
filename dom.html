@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOM Manipulation</title>
+</head>
+<body>
+ 
+    <h1>DOM Manipulation</h1>
+ 
+    <label for="name">Name: </label>
+    <input type="text" id="name">
+
+    <br><br>
+    <label for="gender">Choose Gender: </label>
+
+    <input type="radio" name="gender" id="male" value="Male"> Male
+    
+    <input type="radio" name="gender" id="female" value="Female"> Female
+ 
+    <br><br>
+ 
+    <div id="data"></div>
+    <br>
+ 
+    <button onclick="insertRow();">Insert Table Data</button><br>
+    <br>
+    <button onclick="deleteLastRow();">Remove Table Data</button><br>
+    <br>
+    <button onclick="clearTable();">Remove Full Table Permanently</button>
+    <br><br>
+ 
+    <script>
+
+        const containerDiv = document.getElementById("data");
+
+        const infoTable = document.createElement("table");
+        infoTable.setAttribute("border", "1");
+
+        const headerRow = document.createElement("tr");
+
+        const nameHeader = document.createElement("th");
+        const genderHeader = document.createElement("th");
+
+        const name = document.createTextNode("Name");
+        const gender = document.createTextNode("Gender");
+
+        nameHeader.appendChild(name);
+        genderHeader.appendChild(gender);
+
+        headerRow.appendChild(nameHeader);
+        headerRow.appendChild(genderHeader);
+
+        infoTable.appendChild(headerRow);
+
+        containerDiv.appendChild(infoTable);
+
+        function insertRow() {
+
+            const userName = document.getElementById("name").value;
+
+            let userGender = "";
+
+            if (document.getElementById("male").checked) {
+                userGender = document.getElementById("male").value;
+            }
+            else if (document.getElementById("female").checked) {
+                userGender = document.getElementById("female").value;
+            }
+
+            if (userName === "" || userGender === "") {
+                alert("Please enter name and select gender!");
+                return;
+            }
+
+            const dataRow = document.createElement("tr");
+
+            const nameCell = document.createElement("td");
+            const genderCell = document.createElement("td");
+
+            const nameText = document.createTextNode(userName);
+            const genderText = document.createTextNode(userGender);
+
+            nameCell.appendChild(nameText);
+            genderCell.appendChild(genderText);
+
+            dataRow.appendChild(nameCell);
+            dataRow.appendChild(genderCell);
+
+            infoTable.appendChild(dataRow);
+
+            document.getElementById("name").value = "";
+            document.getElementById("male").checked = false;
+            document.getElementById("female").checked = false;
+        }
+ 
+        function deleteLastRow() {
+           if (infoTable.rows.length > 1) {
+                infoTable.deleteRow(infoTable.rows.length - 1);
+           }
+        }
+ 
+        function clearTable() {
+            infoTable.innerHTML = `
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                </tr>
+            `;
+        }
+
+    </script>
+ 
+</body>
+</html>
